@@ -97,7 +97,7 @@
           var option = '';
           if (Array.isArray(json)) { // if is json array we create select with multiple options @import_locations_feature
             $.each(json, (index) => {
-              option = '<option value="' + json[index].id + '" selected>' + json[index].label + '</option>';
+              option += '<option value="' + json[index].id + '" selected>' + json[index].label + '</option>';
             })
           } else {
             option = '<option value="' + json.id + '" selected>' + json.label + '</option>';
