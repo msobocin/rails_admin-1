@@ -92,7 +92,16 @@
           widget._bindFormEvents();
         } else {
           var json = $.parseJSON(data.responseText);
-          var option = '<option value="' + json.id + '" selected>' + json.label + '</option>';
+
+          // MOD START
+          var option = '';
+          if (Array.isArray(json)) { // if is json array we create select with multiple options @import_locations_feature
+            option = '<option value="' + json.id + '" selected>' + json.label + '</option>';
+          } else {
+            option = '<option value="' + json.id + '" selected>' + json.label + '</option>';
+          }
+          // MOD END
+
           var select = widget.element.find('select').filter(":hidden");
 
           if(widget.element.find('.filtering-select').length) { // select input
@@ -109,6 +118,12 @@
               select.find('option[value=' + json.id + ']').text(json.label);
               multiselect.find('option[value= ' + json.id + ']').text(json.label);
             } else { // add
+              // MOD START
+              if (Array.isArray(json)) { // we clean multi select box before inject new options @import_locations_feature
+                select.empty();
+                multiselect.find('select.ra-multiselect-selection').empty();
+              }
+              // MOD END
               select.append(option);
               multiselect.find('select.ra-multiselect-selection').append(option);
             }
