@@ -99,11 +99,11 @@
             $.each(json.correct, (index) => {
               option += '<option value="' + json.correct[index].id + '" selected>' + json.correct[index].label + '</option>';
             });
-            $('#incorrectLocations .modal-body').empty();
+            $('#incorrectLocations .modal-body .modal-table-locations').empty();
 
             let incorrectLocations = JSON.parse(json.incorrect);
             if (incorrectLocations && incorrectLocations.length) {
-              $.makeTable(incorrectLocations).appendTo('#incorrectLocations .modal-body');
+              $.makeTable(incorrectLocations).appendTo('#incorrectLocations .modal-body .modal-table-locations');
               $('#incorrectLocations .modal-body').data('incorrectLocations', incorrectLocations);
               $('#incorrectLocations').modal('show');
             }
