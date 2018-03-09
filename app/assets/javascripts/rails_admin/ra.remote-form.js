@@ -104,6 +104,7 @@
             let incorrectLocations = JSON.parse(json.incorrect);
             if (incorrectLocations && incorrectLocations.length) {
               $.makeTable(incorrectLocations).appendTo('#incorrectLocations .modal-body');
+              $('#incorrectLocations .modal-body').data('incorrectLocations', incorrectLocations);
               $('#incorrectLocations').modal('show');
             }
           } else {
