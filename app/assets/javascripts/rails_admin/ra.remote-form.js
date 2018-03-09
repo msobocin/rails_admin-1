@@ -95,10 +95,17 @@
 
           // MOD START
           var option = '';
-          if (Array.isArray(json)) { // if is json array we create select with multiple options @import_locations_feature
-            $.each(json, (index) => {
-              option += '<option value="' + json[index].id + '" selected>' + json[index].label + '</option>';
-            })
+          if(json.hasOwnProperty('correct') && json.hasOwnProperty('incorrect')) { // if is json array we create select with multiple options @import_locations_feature
+            $.each(json.correct, (index) => {
+              option += '<option value="' + json.correct[index].id + '" selected>' + json.correct[index].label + '</option>';
+            });
+            $('#incorrectLocations .modal-body').empty();
+
+            let incorrectLocations = JSON.parse(json.incorrect);
+            if (incorrectLocations && incorrectLocations.length) {
+              $.makeTable(incorrectLocations).appendTo('#incorrectLocations .modal-body');
+              $('#incorrectLocations').modal('show');
+            }
           } else {
             option = '<option value="' + json.id + '" selected>' + json.label + '</option>';
           }
@@ -121,7 +128,7 @@
               multiselect.find('option[value= ' + json.id + ']').text(json.label);
             } else { // add
               // MOD START
-              if (Array.isArray(json)) { // we clean multi select box before inject new options @import_locations_feature
+              if(json.hasOwnProperty('correct') && json.hasOwnProperty('incorrect')) { // we clean multi select box before inject new options @import_locations_feature
                 select.empty();
                 multiselect.find('select.ra-multiselect-selection').empty();
               }
@@ -169,4 +176,19 @@
       return this.dialog;
     }
   });
+
+  // MOD START
+  $.makeTable = function (mydata) {
+    var table = $('<table border=1>');
+    $.each(mydata, function (index, value) {
+      var TableRow = "<tr>";
+      $.each(value, function (key, val) {
+          TableRow += "<td>" + val + "</td>";
+      });
+      TableRow += "</tr>";
+      $(table).append(TableRow);
+    });
+    return ($(table));
+  };
+  // MOD END
 })(jQuery);
